@@ -1,0 +1,23 @@
+[Unit]
+Description=HashiCorp Vault Development Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/vault server -dev
+Restart=on-failure
+RestartSec=5
+Environment="VAULT_DEV_ROOT_TOKEN_ID=root"
+Environment="VAULT_ADDR=http://0.0.0.0:8200"
+
+# Ensure Vault can read/write its storage in dev mode
+WorkingDirectory=/root
+
+# Log output to journalctl
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

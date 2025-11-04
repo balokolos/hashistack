@@ -1,0 +1,26 @@
+[Unit]
+Description=HashiCorp Nomad Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/nomad agent -config=/etc/nomad.d/nomad.hcl -dev
+Restart=on-failure
+RestartSec=5
+
+# Log to journald
+StandardOutput=journal
+StandardError=journal
+
+# Nomad should use its own working directory
+WorkingDirectory=/var/lib/nomad
+
+# Ensure Nomad has access to its data dir
+# Need to create /var/lib/nomad directory
+RuntimeDirectory=nomad
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
