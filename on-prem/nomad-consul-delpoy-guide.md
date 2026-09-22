@@ -63,3 +63,9 @@ Solution:
 
     Bash
     sudo systemctl restart nomad
+
+Problem: Backend-connect cannot connect to nginx. Get connection refused
+
+Observation
+- After nomad/consul stop, container remain running, app acessible.    
+- can also use image nicholasjackson/fake-service:v0.26.0as replacement to backend job

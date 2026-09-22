@@ -16,7 +16,7 @@ job "backend-connect" {
           proxy {
             upstreams {
               destination_name = "nginx"
-              local_bind_port  = 9090
+              local_bind_port  = 9094
             }
           }
         }
@@ -31,13 +31,17 @@ job "backend-connect" {
     task "server" {
       driver = "docker"
       config {
-        image = "hashicorp/demo-webapp-lb-guide"
+        #image = "hashicorp/demo-webapp-lb-guide"
+        image = "nicholasjackson/fake-service:v0.26.0"
         ports = ["http"]
       }
       env {
-        PORT = "8080"
-        NODE_IP      = "${NOMAD_IP_http}"
-        UPSTREAM_URL = "http://localhost:9090"
+        # PORT = "8080"
+        # NODE_IP      = "${NOMAD_IP_http}"
+        # UPSTREAM_URL = "http://localhost:9090"
+        LISTEN_ADDR   = "0.0.0.0:8080"
+        NAME          = "backend"
+        UPSTREAM_URIS = "http://localhost:9094"
       }
       resources {
         cpu    = 500
