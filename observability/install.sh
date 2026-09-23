@@ -3,6 +3,7 @@
 sudo mkdir -p /opt/cni/bin
 sudo mkdir -p /opt/monitoring/{loki,grafana,alloy,prometheus}/data
 sudo chmod -R 666 /opt/monitoring/
+sudo chown -R $USER:$USER /opt/cni/bin
 
 wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins
 sudo tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v1.3.0.tgz
