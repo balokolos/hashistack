@@ -112,3 +112,10 @@ ports {
 connect {
   enabled = true
 }
+
+#enable consul mmetrics
+telemetry {
+  # collection_interval         = "1s"
+  # disable_hostname            = true
+  prometheus_retention_time   = "60s"
+}

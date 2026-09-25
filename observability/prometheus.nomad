@@ -67,20 +67,33 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-
   - job_name: "prometheus"
-
     static_configs:
       - targets:
           - "localhost:9090"
 
-  - job_name: "consul-services"
-
+  - job_name: "nomad-and-consul-telemetry"
     consul_sd_configs:
       - server: "172.17.244.60:8500"
         datacenter: "dc1"
+        services:
+          - "nomad"
+          - "consul"
+
+    params:
+      format:
+        - "prometheus"
 
     relabel_configs:
+      - source_labels: [__meta_consul_service]
+        action: keep
+        regex: ".*(nomad|consul).*"
+
+      - source_labels: [__meta_consul_service]
+        action: replace
+        target_label: __metrics_path__
+        regex: ".*"
+        replacement: "/v1/metrics"
 
       - source_labels: [__meta_consul_service]
         target_label: service
